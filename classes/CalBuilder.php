@@ -15,13 +15,23 @@ class CalBuilder {
         $this->_endDate = $endDate;
     }
 
-    public function build() {
-        $date1 = new Date('ראש השנה', $this->_denomination, 1, 12351231, 123412341234);
-        $date2 = new Date('Ostern', $this->_denomination, 2, 15551231, 165542341234);
+    public function build($db) {
+        $query = 'SELECT ho.name, ho.denomination, da.id, da.start, da.end
+                  FROM holidays ho, dates da
+                  WHERE ho.id = da.holiday AND (da.start >= ' . $this->_endDate . ' OR da.end <= ' . $this->_startDate . ')';
+        $result = mysql_query($query, $db); 
 
-        $this->_dates = array(
-            $date1, $date2
-        );
+        if (!$result) {
+            throw new Exception('Problem with query' . mysql_error());
+        }
+
+        if (mysql_num_rows($result) > 0) {
+            while ($row = mysql_fetch_assoc($result)) {
+                $this->_dates[] = new Date($row['name'], $row['denomination'], $row['id'], $row['start'], $row['end']);
+            }
+        } else {
+            $this->_dates = array();
+        }
     }
 
     public function renderIcs() {

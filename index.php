@@ -8,7 +8,7 @@
 $dbHost = 'localhost';
 $dbName = 'ijew';
 $dbUser = 'ijew';
-$dbPwrd = 'GZtWAKbScMESs94U';
+$dbPass = 'GZtWAKbScMESs94U';
 
 define('IJEW_ROOT', rtrim(dirname(__FILE__), '/\\') . '/');
 
@@ -18,13 +18,13 @@ $includePath .= IJEW_ROOT . 'classes/' . PATH_SEPARATOR;
 set_include_path($includePath);
 date_default_timezone_set('UTC');
 
-require_once 'CalBuilder.php';
-
 $d = isset($_GET['d']) ? $_GET['d'] : null;
 $s = isset($_GET['s']) ? $_GET['s'] : null;
 
-$builder = new CalBuilder('j', 734973, 800000);
-$builder->build();
-$builder->renderIcs();
+require_once 'Application.php';
+
+$app = new Application($d, $s);
+$app->initDb($dbHost, $dbName, $dbUser, $dbPass);
+$app->run();
 
 ?>
