@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+<?php
+    /**
+     * CAUTION: this file depends on UNIX time stamps
+     */
+
+    $format = 'Ymd\THis';
+?>
+<?php foreach ($this->dates as $date) : ?>
+BEGIN:VEVENT
+<?php echo 'UID:' . $date->denomination . $date->holiday . $date->startDay .'@ijew' . "\n"; ?>
+<?php echo 'DTSTAMP:' . date($format) . "\n"; ?>
+<?php echo 'SUMMARY:' . $date->name . "\n"; ?>
+<?php echo 'DTSTART:' . date($format, $date->startStamp) . "\n"; ?>
+<?php echo 'DTEND:' . date($format, $date->endStamp) . "\n"; ?>
+END:VEVENT
+<?php endforeach; ?>
