@@ -1,13 +1,13 @@
 <?php
 class Template {
-    private $file;
+    private $_file;
 
     public function __construct($file) {
-        $this->file = $file;
+        $this->_file = $file;
     }
 
     public function render() {
-        include $this->file;
+        include $this->_file;
     }
 }
 ?>

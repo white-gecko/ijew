@@ -18,6 +18,7 @@ $dbPwrd = 'GZtWAKbScMESs94U';
 date_default_timezone_set('UTC');
 
 $builder = new CalBuilder('j', 734973, 800000);
-$builder->buildIcs();
+$builder->build();
+$builder->renderIcs();
 
 ?>

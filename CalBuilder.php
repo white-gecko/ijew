@@ -4,30 +4,30 @@ require_once 'Date.php';
 require_once 'Template.php';
 
 class CalBuilder {
-    private $denomination;
-    private $startDate;
-    private $endDate;
+    private $_denomination;
+    private $_startDate;
+    private $_endDate;
+    private $_dates;
 
     public function __construct($denomination, $startDate, $endDate) {
-        $this->denomination = $denomination;
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
+        $this->_denomination = $denomination;
+        $this->_startDate = $startDate;
+        $this->_endDate = $endDate;
     }
 
-    public function buildIcs() {
+    public function build() {
+        $date1 = new Date('ראש השנה', $this->_denomination, 1, 12351231, 123412341234);
+        $date2 = new Date('Ostern', $this->_denomination, 2, 15551231, 165542341234);
 
-        $date = new Date();
-        $date->denomination = $this->denomination;
-        $date->holiday = 1;
-        $date->startDay = 1231231241;
-        $date->startStamp = 1231231241;
-        $date->endStamp = 1231231241;
-        $date->name = 'ראש השנה';
+        $this->_dates = array(
+            $date1, $date2
+        );
+    }
+
+    public function renderIcs() {
 
         $view = new Template('templates/ics.phtml');
-        $view->dates = array(
-            $date, $date
-        );
+        $view->dates = $this->_dates;
 	//header('Content-Type: text/calendar; charset=utf-8');
 	header('Content-Type: text/plain; charset=utf-8');
         $view->render();
