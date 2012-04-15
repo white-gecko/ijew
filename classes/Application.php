@@ -1,12 +1,15 @@
 <?php
 
 require_once 'CalBuilder.php';
+require_once 'CalEditor.php';
 
 class Application {
     private $_db;
+    private $_mode;
 
-    public function __construct($d = null, $s = null) {
+    public function __construct($d = null, $s = null, $m = null) {
         // TODO read params
+        $this->_mode = $m;
     }
 
     public function __destruct() {
@@ -32,10 +35,25 @@ class Application {
     }
 
     public function run() {
-       
-        $builder = new CalBuilder('j', 734973, 800000);
-        $builder->build($this->_db);
-        $builder->renderIcs();
+        // edit
+        if ($this->_mode == 'e') {
+            $editor = new CalEditor();
+            $editor->setDb($this->_db);
+            $editor->renderForm();
+        // add
+        } else if ($this->_mode == 'a') {
+            $id = $_POST['holiday'];
+            $start = $_POST['start'];
+            $end = $_POST['end'];
+            $editor = new CalEditor();
+            $editor->setDb($this->_db);
+            $editor->addDate($id, $start, $end);
+        // show
+        } else {
+            $builder = new CalBuilder('j', 734973, 800000);
+            $builder->build($this->_db);
+            $builder->renderIcs();
+        }
     }
 }
 

@@ -1,0 +1,16 @@
+<html>
+<head>
+</head>
+<body>
+<form action="?m=a" method="post">
+<select name="holiday">
+<?php foreach ($this->holidays as $holiday) : ?>
+<option value="<?= $holiday['value'] ?>"><?= $holiday['name'] ?></option>
+<?php endforeach; ?>
+</select>
+<input type="text" name="start" />
+<input type="text" name="end" />
+<input type="submit" />
+</form>
+</body>
+</html>

@@ -20,10 +20,11 @@ date_default_timezone_set('UTC');
 
 $d = isset($_GET['d']) ? $_GET['d'] : null;
 $s = isset($_GET['s']) ? $_GET['s'] : null;
+$m = isset($_GET['m']) ? $_GET['m'] : null;
 
 require_once 'Application.php';
 
-$app = new Application($d, $s);
+$app = new Application($d, $s, $m);
 $app->initDb($dbHost, $dbName, $dbUser, $dbPass);
 $app->run();
 

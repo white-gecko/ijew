@@ -6,14 +6,15 @@ VERSION:2.0
      */
 
     $format = 'Ymd\THis';
+    $dayFormat = 'Ymd';
 ?>
 <?php foreach ($this->dates as $date) : ?>
 BEGIN:VEVENT
-<?php echo 'UID:' . $date->getDenominationId() . $date->getHolidayId() . $date->getStartDay() .'@ijew' . "\n"; ?>
-<?php echo 'DTSTAMP:' . date($format) . "\n"; ?>
-<?php echo 'SUMMARY:' . $date->getTitle() . "\n"; ?>
-<?php echo 'DTSTART:' . date($format, $date->getStartStamp()) . "\n"; ?>
-<?php echo 'DTEND:' . date($format, $date->getEndStamp()) . "\n"; ?>
+<?= 'UID:' . $date->getDenominationId() . $date->getHolidayId() . $date->getStartDay() .'@ijew' . "\n"; ?>
+<?= 'DTSTAMP:' . date($format) . "\n"; ?>
+<?= 'SUMMARY:' . $date->getTitle() . "\n"; ?>
+<?= 'DTSTART:' . date($dayFormat, $date->getStartStamp()) . "\n"; ?>
+<?= 'DTEND:' . date($dayFormat, $date->getEndStamp()) . "\n"; ?>
 END:VEVENT
 <?php endforeach; ?>
 END:VCALENDAR

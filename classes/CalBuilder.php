@@ -18,11 +18,12 @@ class CalBuilder {
     public function build($db) {
         $query = 'SELECT ho.name, ho.denomination, da.id, da.start, da.end
                   FROM holidays ho, dates da
-                  WHERE ho.id = da.holiday AND (da.start >= ' . $this->_startDate . ' AND da.start <= ' . $this->_endDate . ')';
+                  WHERE ho.id = da.holiday AND (da.start >= ' . $this->_startDate . ' AND da.start <= ' . $this->_endDate . ')
+                  ORDER BY da.start';
         $result = mysql_query($query, $db); 
 
         if (!$result) {
-            throw new Exception('Problem with query' . mysql_error());
+            throw new Exception('Problem with query: ' . mysql_error());
         }
 
         if (mysql_num_rows($result) > 0) {
