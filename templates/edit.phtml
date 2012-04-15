@@ -16,6 +16,10 @@ function edit() {
 }
 $(function() {
     $('#startDate').datepicker({ dateFormat: 'yy-mm-dd'});
+    $('#holiday').change(function() {
+      var hol = $('#holiday').val();
+      $('#progress').load('?h=' + hol + '&f=html');
+    });
 });
 </script>
 </head>
@@ -46,8 +50,10 @@ $(function() {
 </td>
 </tr>
 </table>
-<img id="indicator" src="http://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Red_pog.svg/64px-Red_pog.svg.png"/>
+<img id="indicator" height="24px" width="24px" src="http://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Red_pog.svg/64px-Red_pog.svg.png"/>
 <input type="submit" />
 </form>
+<div id="progress">
+</div>
 </body>
 </html>

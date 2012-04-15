@@ -1,0 +1,4 @@
+
+<?php foreach ($this->dates as $date) : ?>
+	<?= date('Y-m-d H:i:s', $date->getStartStamp()) . ' bis ' .  date('Y-m-d H:i:s', $date->getEndStamp()) . "\n"; ?><br />
+<?php endforeach; ?>

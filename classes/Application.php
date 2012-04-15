@@ -7,9 +7,12 @@ class Application {
     private $_db;
     private $_mode;
 
-    public function __construct($d = null, $s = null, $m = null) {
+    public function __construct($d = null, $h = null, $m = null, $o = null, $f = null) {
         // TODO read params
         $this->_mode = $m;
+        $this->_denomination = $d;
+        $this->_holiday = $h;
+        $this->_fileFormat = $f;
     }
 
     public function __destruct() {
@@ -57,9 +60,13 @@ class Application {
             $editor->addDate($id, $start, ($start + $duration));
         // show
         } else {
-            $builder = new CalBuilder('j', 734973, 800000);
+            $builder = new CalBuilder(null, $this->_holiday, 734973, 800000);
             $builder->build($this->_db);
-            $builder->renderIcs();
+            if ($this->_fileFormat == 'html') {
+                $builder->renderHtml();
+            } else {
+                $builder->renderIcs();
+            }
         }
     }
 }
