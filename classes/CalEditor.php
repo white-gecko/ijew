@@ -19,6 +19,7 @@ class CalEditor {
         if (!$result) {
             throw new Exception('Problem with query: ' . mysql_error());
         } else {
+            echo mysql_insert_id($this->_db);
             // redirect back to form
             //header('Location: ?m=e');
         }

@@ -42,10 +42,16 @@ class Application {
             $editor->renderForm();
         // add
         } else if ($this->_mode == 'a') {
-            $id = $_POST['holiday'];
-            $start = $_POST['start'];
-            //$end = $_POST['end'];
-            $duration = $_POST['duration'];
+            $id = isset($_POST['holiday']) ? $_POST['holiday'] : null;
+            $start = isset($_POST['start']) ? $_POST['start'] : null;
+            $startDate = isset($_POST['startDate']) ? $_POST['startDate'] : null;
+            //$end = isset($_POST['end']) ? $_POST['end'] : null;
+            $duration = isset($_POST['duration']) ? $_POST['duration'] : null;
+
+            if (!$start) {
+                $start = Date::stringToSerial($startDate);
+            }
+
             $editor = new CalEditor();
             $editor->setDb($this->_db);
             $editor->addDate($id, $start, ($start + $duration));

@@ -50,20 +50,36 @@ class Date {
     }
 
     public function getStartStamp() {
-        return Date::_serialToUnixTime($this->_start);
+        return Date::serialToUnixTime($this->_start);
     }
 
     public function getEndStamp() {
-        return Date::_serialToUnixTime($this->_end);
+        return Date::serialToUnixTime($this->_end);
     }
 
     /**
      * Converts the days since year 0 to seconds since January 1st 1970
      */
-    private static function _serialToUnixTime($serialDate) {
-        // TODO fix leapseconds
+    public static function serialToUnixTime($serialDate) {
         $serialDate-= Date::$unixBegin;
         return $serialDate * Date::$secPerDay;
+    }
+
+    /**
+     * Converts the seconds since January 1st 1970 to days since year 0
+     */
+    public static function unixTimeToSerial($unixTime) {
+        $unixTime/= Date::$secPerDay;
+        return $unixTime+= Date::$unixBegin;
+    }
+
+    /**
+     * Converts the seconds since January 1st 1970 to days since year 0
+     */
+    public static function stringToSerial($dateString) {
+        $unixTime = strtotime($dateString);
+        $unixTime/= Date::$secPerDay;
+        return $unixTime+= Date::$unixBegin;
     }
 }
 ?>

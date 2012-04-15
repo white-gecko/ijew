@@ -1,18 +1,22 @@
 <html>
 <head>
-<script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-latest.min.js">
-</script>
+<link rel="stylesheet" href="./css/ui-lightness/jquery-ui-1.8.18.custom.css" />
+<script type="text/javascript" language="javascript" src="./js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" language="javascript" src="./js/jquery-ui-1.8.18.custom.min.js"></script>
 <script type="text/javascript" language="javascript">
 var redSrc = 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Red_pog.svg/64px-Red_pog.svg.png';
 var greenSrc = 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Green_pog.svg/64px-Green_pog.svg.png';
 function submit() {
-    $.post("?m=a", {holiday: $('#holiday').val(), start: $('#start').val(), duration: $('#duration').val()});
+    $.post("?m=a", {holiday: $('#holiday').val(), start: $('#start').val(), startDate: $('#startDate').val(), duration: $('#duration').val()});
     $('#indicator').attr('src', greenSrc); 
 }
 
 function edit() {
-    $('#indicator').attr('src', redSrc); 
+    $('#indicator').attr('src', redSrc);
 }
+$(function() {
+    $('#startDate').datepicker({ dateFormat: 'yy-mm-dd'});
+});
 </script>
 </head>
 <body>
@@ -30,7 +34,8 @@ function edit() {
 <tr>
 <th>Start</th>
 <td>
-<input type="text" id="start" name="start" onChange="javascript:edit()" />
+<input type="text" id="startDate" name="startDate" onChange="javascript:edit()" />
+<input type="hidden" id="start" name="start" onChange="javascript:edit()" value="" />
 </td>
 </tr>
 <tr>
