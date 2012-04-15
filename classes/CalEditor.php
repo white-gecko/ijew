@@ -20,7 +20,7 @@ class CalEditor {
             throw new Exception('Problem with query: ' . mysql_error());
         } else {
             // redirect back to form
-            header('Location: ?m=e');
+            //header('Location: ?m=e');
         }
     }
  

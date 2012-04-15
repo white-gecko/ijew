@@ -28,7 +28,7 @@ class CalBuilder {
 
         if (mysql_num_rows($result) > 0) {
             while ($row = mysql_fetch_assoc($result)) {
-                $this->_dates[] = new Date($row['name'], $row['denomination'], $row['id'], $row['start'], $row['end']);
+                $this->_dates[] = new Date($row['id'], $row['name'], $row['denomination'], $row['id'], $row['start'], $row['end']);
             }
         } else {
             $this->_dates = array();

@@ -8,6 +8,7 @@ class Date {
       */
      private static $secPerDay = 86400;
 
+     private $_id;
      private $_title;
      private $_denominationId;
      private $_holidayId;
@@ -19,12 +20,17 @@ class Date {
      * the start and end are float values in the RAF notation
      * the title is the title or name of the event
      */
-    public function __construct($title, $denominationId, $holidayId, $start, $end) {
+    public function __construct($id, $title, $denominationId, $holidayId, $start, $end) {
+        $this->_id = $id;
         $this->_title = $title;
         $this->_denominationId = $denominationId;
         $this->_holidayId = $holidayId;
         $this->_start = $start;
         $this->_end = $end;
+    }
+
+    public function getId() {
+        return $this->_id;
     }
 
     public function getTitle() {

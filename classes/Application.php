@@ -44,10 +44,11 @@ class Application {
         } else if ($this->_mode == 'a') {
             $id = $_POST['holiday'];
             $start = $_POST['start'];
-            $end = $_POST['end'];
+            //$end = $_POST['end'];
+            $duration = $_POST['duration'];
             $editor = new CalEditor();
             $editor->setDb($this->_db);
-            $editor->addDate($id, $start, $end);
+            $editor->addDate($id, $start, ($start + $duration));
         // show
         } else {
             $builder = new CalBuilder('j', 734973, 800000);

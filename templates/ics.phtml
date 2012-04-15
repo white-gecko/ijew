@@ -13,6 +13,7 @@ BEGIN:VEVENT
 <?= 'UID:' . $date->getDenominationId() . $date->getHolidayId() . $date->getStartDay() .'@ijew' . "\n"; ?>
 <?= 'DTSTAMP:' . date($format) . "\n"; ?>
 <?= 'SUMMARY:' . $date->getTitle() . "\n"; ?>
+<?= 'DESCRIPTION:' . $date->getId() . "\n"; ?>
 <?= 'DTSTART:' . date($dayFormat, $date->getStartStamp()) . "\n"; ?>
 <?= 'DTEND:' . date($dayFormat, $date->getEndStamp()) . "\n"; ?>
 END:VEVENT

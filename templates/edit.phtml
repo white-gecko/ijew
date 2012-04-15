@@ -1,15 +1,47 @@
 <html>
 <head>
+<script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-latest.min.js">
+</script>
+<script type="text/javascript" language="javascript">
+var redSrc = 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Red_pog.svg/64px-Red_pog.svg.png';
+var greenSrc = 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Green_pog.svg/64px-Green_pog.svg.png';
+function submit() {
+    $.post("?m=a", {holiday: $('#holiday').val(), start: $('#start').val(), duration: $('#duration').val()});
+    $('#indicator').attr('src', greenSrc); 
+}
+
+function edit() {
+    $('#indicator').attr('src', redSrc); 
+}
+</script>
 </head>
 <body>
-<form action="?m=a" method="post">
-<select name="holiday">
+<form action="javascript:submit()">
+<table>
+<tr>
+<th>Holiday</th>
+<td><select id="holiday" name="holiday" onChange="javascript:edit()">
 <?php foreach ($this->holidays as $holiday) : ?>
 <option value="<?= $holiday['value'] ?>"><?= $holiday['name'] ?></option>
 <?php endforeach; ?>
 </select>
-<input type="text" name="start" />
-<input type="text" name="end" />
+</td>
+</tr>
+<tr>
+<th>Start</th>
+<td>
+<input type="text" id="start" name="start" onChange="javascript:edit()" />
+</td>
+</tr>
+<tr>
+<th>Duration</th>
+<td>
+<!-- <input type="text" id="end" name="end" /> -->
+<input type="text" id="duration" name="duration" value="1" onChange="javascript:edit()"/>
+</td>
+</tr>
+</table>
+<img id="indicator" src="http://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Red_pog.svg/64px-Red_pog.svg.png"/>
 <input type="submit" />
 </form>
 </body>
