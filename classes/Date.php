@@ -1,5 +1,13 @@
 <?php
 class Date {
+     private static $unixBegin = 719529;
+
+     /**
+      * The amount of seconds of a 'normal' day
+      * 24*60*60
+      */
+     private static $secPerDay = 86400;
+
      private $_title;
      private $_denominationId;
      private $_holidayId;
@@ -32,18 +40,24 @@ class Date {
     }
 
     public function getStartDay() {
-        // TODO calculate
-        return $this->_start;
+        return floor($this->_start);
     }
 
     public function getStartStamp() {
-        // TODO calculate
-        return $this->_start;
+        return Date::_serialToUnixTime($this->_start);
     }
 
     public function getEndStamp() {
-        // TODO calculate
-        return $this->_end;
+        return Date::_serialToUnixTime($this->_end);
+    }
+
+    /**
+     * Converts the days since year 0 to seconds since January 1st 1970
+     */
+    private static function _serialToUnixTime($serialDate) {
+        // TODO fix leapseconds
+        $serialDate-= Date::$unixBegin;
+        return $serialDate * Date::$secPerDay;
     }
 }
 ?>

@@ -18,7 +18,7 @@ class CalBuilder {
     public function build($db) {
         $query = 'SELECT ho.name, ho.denomination, da.id, da.start, da.end
                   FROM holidays ho, dates da
-                  WHERE ho.id = da.holiday AND (da.start >= ' . $this->_endDate . ' OR da.end <= ' . $this->_startDate . ')';
+                  WHERE ho.id = da.holiday AND (da.start >= ' . $this->_startDate . ' AND da.start <= ' . $this->_endDate . ')';
         $result = mysql_query($query, $db); 
 
         if (!$result) {
