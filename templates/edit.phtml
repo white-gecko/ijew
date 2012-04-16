@@ -9,16 +9,20 @@ var greenSrc = 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Green_p
 function submit() {
     $.post("?m=a", {holiday: $('#holiday').val(), start: $('#start').val(), startDate: $('#startDate').val(), duration: $('#duration').val()});
     $('#indicator').attr('src', greenSrc); 
+    reloadProgress();
 }
 
 function edit() {
     $('#indicator').attr('src', redSrc);
 }
+function reloadProgress() {
+      var hol = $('#holiday').val();
+      $('#progress').load('?h=' + hol + '&f=html');
+}
 $(function() {
     $('#startDate').datepicker({ dateFormat: 'yy-mm-dd'});
     $('#holiday').change(function() {
-      var hol = $('#holiday').val();
-      $('#progress').load('?h=' + hol + '&f=html');
+        reloadProgress();
     });
 });
 </script>
