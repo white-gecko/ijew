@@ -1,0 +1,5 @@
+[ijew]
+db.host = 'localhost';
+db.name = 'ijew';
+db.user = 'user';
+db.pass = 'password';

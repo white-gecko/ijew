@@ -1,45 +1,65 @@
 <?php
 /**
- * Uses following GET variables:
- *   d - denomination (e.g. i, j, e, w)
- *   h - holiday (numerical)
- *   m - mode (<none> - view, e - edit, a - add)
- *   o - options (e.g. allday)
- *   f - format (e.g. ics, html)
+ * This file is part of the {@link http://aksw.org/Projects/Xodx Xodx} project.
+ *
+ * @license http://opensource.org/licenses/gpl-license.php GNU General Public License (GPL)
  */
 
-$dbHost = 'localhost';
-$dbName = 'ijew';
-$dbUser = 'ijew';
-$dbPass = 'GZtWAKbScMESs94U';
+$main_dir = rtrim(dirname(__FILE__), '/\\');
 
-define('IJEW_ROOT', rtrim(dirname(__FILE__), '/\\') . '/');
+if ($main_dir[strlen($main_dir) - 1] != '/') {
+    $main_dir .= '/';
+}
 
-// add libraries to include path
-$includePath = get_include_path() . PATH_SEPARATOR;
-$includePath .= IJEW_ROOT . 'classes/' . PATH_SEPARATOR;
+# Set include paths
+$includePath  = get_include_path() . PATH_SEPARATOR;
+
+$includePath .= $main_dir . '/classes/' . PATH_SEPARATOR;
+$includePath .= $main_dir . '/classes/Xodx/' . PATH_SEPARATOR;
+$includePath .= $main_dir . '/libraries/' . PATH_SEPARATOR;
+$includePath .= $main_dir . '/libraries/Erfurt/library/' . PATH_SEPARATOR;
+$includePath .= $main_dir . '/libraries/lib-dssn-php/' . PATH_SEPARATOR;
+$includePath .= $main_dir . '/libraries/ARC2/' . PATH_SEPARATOR;
+
 set_include_path($includePath);
-date_default_timezone_set('UTC');
 
-// denomination
-$d = isset($_GET['d']) ? $_GET['d'] : null;
+# Include Zend Autoloader
+require_once 'Zend/Loader/Autoloader.php';
 
-// holiday
-$h = isset($_GET['h']) ? $_GET['h'] : null;
+# Configure Zend Autoloader
+$autoloader = Zend_Loader_Autoloader::getInstance();
+$autoloader->registerNamespace('Erfurt_');
+$autoloader->registerNamespace('Saft_');
+$autoloader->registerNamespace('Xodx_');
+$autoloader->registerNamespace('DSSN_');
+$autoloader->registerNamespace('ARC2_');
 
-// mode
-$m = isset($_GET['m']) ? $_GET['m'] : null;
+DSSN_Utils::setConstants();
 
-// options
-$o = isset($_GET['o']) ? $_GET['o'] : null;
+$app = new Xodx_Application();
+$app->setAppNamespace('Xodx_');
+$app->setBaseDir($main_dir);
 
-// format
-$f = isset($_GET['f']) ? $_GET['f'] : null;
+// Check if Application should be started normaly or to run the Worker
+$options = getopt('j');
+if (!isset($options['j'])) {
+    // if the Application is started normaly we assume to be in a server environment
+    if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+        $protocol = 'https';
+    } else {
+        $protocol = 'http';
+    }
 
-require_once 'Application.php';
+    $base_uri =  $protocol . "://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
 
-$app = new Application($d, $h, $m, $o, $f);
-$app->initDb($dbHost, $dbName, $dbUser, $dbPass);
-$app->run();
+    // append trailing slash if not present
+    if ($base_uri[strlen($base_uri) - 1] != '/') {
+        $base_uri .= '/';
+    }
 
-?>
+    $app->setBaseUri($base_uri);
+
+    $app->run();
+} else {
+    $app->runJobs();
+}
